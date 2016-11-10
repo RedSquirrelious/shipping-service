@@ -6,6 +6,7 @@ gem 'rails', '4.2.7'
 
 #API gems
 gem 'rails-api'
+gem 'dotenv-rails', :groups => [:development, :test]
 gem 'active_shipping'
 
 # REQUIRED COVERAGE GEM
@@ -50,7 +51,8 @@ group :development, :test do
   gem 'byebug'
   gem 'better_errors'
   gem 'binding_of_caller'
-  gem 'dotenv-rails'
+  gem 'pry'
+  # gem 'dotenv-rails'
   gem 'sqlite3'
 end
 
