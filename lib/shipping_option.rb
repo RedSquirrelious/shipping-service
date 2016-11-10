@@ -28,7 +28,7 @@ class ShippingOption
 	def pack_box
 		# @packages = ActiveShipping::Package.new((WEIGHT * 16), DIMENSIONS, UNITS)
 
-		@packages = ActiveShipping::Package.new((params[:weight]* 16), DIMENSIONS, UNITS)
+		@packages = ActiveShipping::Package.new((params[:weight].to_i* 16), DIMENSIONS, UNITS)
 	end
 
 	def define_origin
