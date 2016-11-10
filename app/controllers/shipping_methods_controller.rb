@@ -5,10 +5,23 @@ class ShippingMethodsController < ApplicationController
 	UPS_PW = ENV["ACTIVESHIPPING_UPS_PASSWORD"]
 	UPS_KEY = ENV["ACTIVESHIPPING_UPS_KEY"]
 
+	def pack_box
+		# @packages = ActiveShipping::Package.new((WEIGHT * 16), DIMENSIONS, UNITS)
+
+		@packages = ActiveShipping::Package.new((params[:weight].to_i* 16), DIMENSIONS, UNITS)
+	end
+
+	def define_origin
+		@origin = ActiveShipping::Location.new(country: COUNTRY, zip: ORIGIN_ZIP)
+	end
+
+	def define_destination
+		@destination = ActiveShipping::Location.new(country: COUNTRY, zip: params[:zip])
+	end
+
 
   def index
-
-  	option = ShippingOption.new
+  	option = ShippingEstimate.new(pack_box, define_origin, define_destination)
   	# raise
   	# puts option.inspect
  
