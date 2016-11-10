@@ -7,6 +7,10 @@ gem 'rails', '4.2.7'
 #API gem
 gem 'rails-api'
 
+gem 'active_shipping'
+
+gem 'simplecov', :require => false, :group => :test
+
 # Use sqlite3 as the database for Active Record
 # gem 'sqlite3'
 # Use SCSS for stylesheets
