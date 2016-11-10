@@ -41,7 +41,7 @@ class ShippingEstimate
 	end
 
 	def define_destination
-		@destination = ActiveShipping::Location.new(country: COUNTRY, zip: params[:zip])
+		@destination = ActiveShipping::Location.new(country: COUNTRY, zip: DESTINATION_ZIP)
 	end
 
 
