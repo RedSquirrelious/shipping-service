@@ -5,6 +5,16 @@ class ShippingMethodsController < ApplicationController
 	UPS_PW = ENV["ACTIVESHIPPING_UPS_PASSWORD"]
 	UPS_KEY = ENV["ACTIVESHIPPING_UPS_KEY"]
 
+		# BASE_URL = 
+	COUNTRY = 'US'
+	ORIGIN_ZIP = 98161
+	DESTINATION_ZIP = 99518
+	
+	WEIGHT = 10
+	UNITS = {units: :imperial}
+	DIMENSIONS = [12, 12, 12]
+# /CONSTANTS
+
 	def pack_box
 		# @packages = ActiveShipping::Package.new((WEIGHT * 16), DIMENSIONS, UNITS)
 
