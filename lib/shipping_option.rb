@@ -26,8 +26,9 @@ class ShippingOption
 # /CONSTANTS
 
 	def pack_box
-		@packages = ActiveShipping::Package.new((WEIGHT * 16), DIMENSIONS, UNITS)
-		# @packages = ActiveShipping::Package.new(WEIGHT, DIMENSIONS, UNITS)
+		# @packages = ActiveShipping::Package.new((WEIGHT * 16), DIMENSIONS, UNITS)
+
+		@packages = ActiveShipping::Package.new((params[:weight]* 16), DIMENSIONS, UNITS)
 	end
 
 	def define_origin
@@ -35,7 +36,7 @@ class ShippingOption
 	end
 
 	def define_destination
-		@destination = ActiveShipping::Location.new(country: COUNTRY, zip: DESTINATION_ZIP)
+		@destination = ActiveShipping::Location.new(country: COUNTRY, zip: params[:zip])
 	end
 
 
