@@ -24,9 +24,9 @@ class ShippingEstimate
 		# @carrier_service = details[:carrier_service]
 		# @carrier_rate = details[:carrier_rate]
 	
-		@packages = pack_box
-		@origin = define_origin
-		@destination = define_destination
+		@packages = packages
+		@origin = origin
+		@destination = destination
 
 	end
 
