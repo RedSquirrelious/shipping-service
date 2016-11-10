@@ -18,7 +18,7 @@ class ShippingMethodsController < ApplicationController
 	def pack_box
 		# @packages = ActiveShipping::Package.new((WEIGHT * 16), DIMENSIONS, UNITS)
 
-		@packages = ActiveShipping::Package.new((WEIGHT * 16), DIMENSIONS, UNITS)
+		@packages = ActiveShipping::Package.new((WEIGHT.to_i * 16), DIMENSIONS, UNITS)
 	end
 
 	def define_origin
