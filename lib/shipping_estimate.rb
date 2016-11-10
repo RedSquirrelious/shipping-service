@@ -32,7 +32,8 @@ class ShippingEstimate
 
 	def find_UPS_costs
 		ups = ActiveShipping::UPS.new(login: UPS_LOGIN, password: UPS_PW, key: UPS_KEY)
- 		response = ups.find_rates(define_origin, define_destination, pack_box)
+
+ 		response = ups.find_rates(ShippingMethodsController.define_origin, ShippingMethodsController.define_destination, ShippingMethodsController.pack_box)
 
  		options = []
 
