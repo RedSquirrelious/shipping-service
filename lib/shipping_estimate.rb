@@ -30,10 +30,25 @@ class ShippingEstimate
 
 	end
 
+	def pack_box
+		# @packages = ActiveShipping::Package.new((WEIGHT * 16), DIMENSIONS, UNITS)
+
+		@packages = ActiveShipping::Package.new((params[:weight].to_i* 16), DIMENSIONS, UNITS)
+	end
+
+	def define_origin
+		@origin = ActiveShipping::Location.new(country: COUNTRY, zip: ORIGIN_ZIP)
+	end
+
+	def define_destination
+		@destination = ActiveShipping::Location.new(country: COUNTRY, zip: params[:zip])
+	end
+
+
 	def find_UPS_costs
 		ups = ActiveShipping::UPS.new(login: UPS_LOGIN, password: UPS_PW, key: UPS_KEY)
 
- 		response = ups.find_rates(ShippingMethodsController.define_origin, ShippingMethodsController.define_destination, ShippingMethodsController.pack_box)
+ 		response = ups.find_rates(define_origin, define_destination, pack_box)
 
  		options = []
 
