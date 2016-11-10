@@ -1,4 +1,23 @@
 Rails.application.routes.draw do
+  
+  get '/' => 'shipping_methods#index'
+
+  # get 'shipping_methods/index'
+
+  get 'shipping_methods/show'
+
+  get 'shipping_methods/new'
+
+  get 'shipping_methods/create'
+
+  get 'shipping_methods/edit'
+
+  get 'shipping_methods/update'
+
+  get 'shipping_methods/delete'
+
+  get 'shipping_methods/resources'
+
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 

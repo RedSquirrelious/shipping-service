@@ -1,6 +1,10 @@
 require 'active_shipping'
+require 'shipping_estimate'
 
-class ShippingServiceWrapper
+# THIS CLASS USES THE GEM ACTIVE SHIPPING TO CALL ON SHIPPER APIS FOR SHIPPING PRICES/TIMES
+
+class ShippingOption
+
 	attr_reader
 
 #CONSTANTS
@@ -11,52 +15,69 @@ class ShippingServiceWrapper
 
 	USPS_LOGIN = ENV["ACTIVESHIPPING_USPS_LOGIN"]
 
-	BASE_URL = 
+	# BASE_URL = 
+	COUNTRY = 'US'
 	ORIGIN_ZIP = 98161
-	DESTINATION_ZIP = 98101
+	DESTINATION_ZIP = 99518
+	
 	WEIGHT = 10
-	UNITS = "imperial"
+	UNITS = {units: :imperial}
 	DIMENSIONS = [12, 12, 12]
 # /CONSTANTS
 
-#CREATE A WRAPPER 
-	def initialize(args)
+	def pack_box
+		@packages = ActiveShipping::Package.new((WEIGHT * 16), DIMENSIONS, UNITS)
+		# @packages = ActiveShipping::Package.new(WEIGHT, DIMENSIONS, UNITS)
+	end
+
+	def define_origin
+		@origin = ActiveShipping::Location.new(country: COUNTRY, zip: ORIGIN_ZIP)
+	end
+
+	def define_destination
+		@destination = ActiveShipping::Location.new(country: COUNTRY, zip: DESTINATION_ZIP)
+	end
+
+
+# CREATE A WRAPPER 
+	def initialize
 		@packages = pack_box
 		@origin = define_origin
 		@destination = define_destination
 	end
 
-	def pack_box(params)
-		weight = WEIGHT
-		dimensions_lhw_array = DIMENSIONS
-		units = UNITS
 
-		@packages = ActiveShipping::Package.new((weight * 16), dimensions_lhw_array, units)
-	end
 
-	def define_origin
-		@origin = ORIGIN_ZIP
-	end
-
-	def define_destination(params)
-		@destination = DESTINATION_ZIP
-	end
-
-	def self.find_UPS_shipping_costs(origin, destination, packages)
+	def find_UPS_costs
 		ups = ActiveShipping::UPS.new(login: UPS_LOGIN, password: UPS_PW, key: UPS_KEY)
- 
  		response = ups.find_rates(define_origin, define_destination, pack_box)
 
- 		render json: response
+ 		options = []
+
+ 		response.rates.each do |shipping_option|
+ 			details = {}
+ 			details[:carrier_service] = shipping_option.service_name
+ 			details[:carrier_rate] = shipping_option.price
+ 			estimate = ShippingEstimate.new(details)
+
+ 			# estimate = ShippingEstimate.new(shipping_option)
+ 			options << estimate
+ 		end
+
+ 		return options
+
+ #  usps_rates = response.rates.sort_by(&:price).collect {|rate| [rate.service_name, rate.price]}
+
+
 	end
 
-	def self.find_USPS_shipping_costs(origin, destination, packages)
-		usps = ActiveShipping::USPS.new(login: USPS_LOGIN)
+	# def self.find_USPS_costs(origin, destination, packages)
+	# 	usps = ActiveShipping::USPS.new(login: USPS_LOGIN)
  
- 		response = usps.find_rates(define_origin, define_destination, pack_box)
+ # 		response = usps.find_rates(define_origin, define_destination, pack_box)
 
- 		render json: response
-	end
+ # 		render json: response
+	# end
 
 
 
