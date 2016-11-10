@@ -18,7 +18,7 @@ class ShippingMethodsController < ApplicationController
 	def pack_box
 		# @packages = ActiveShipping::Package.new((WEIGHT * 16), DIMENSIONS, UNITS)
 
-		@packages = ActiveShipping::Package.new((params[:weight].to_i* 16), DIMENSIONS, UNITS)
+		@packages = ActiveShipping::Package.new(WEIGHT * 16), DIMENSIONS, UNITS)
 	end
 
 	def define_origin
@@ -26,7 +26,7 @@ class ShippingMethodsController < ApplicationController
 	end
 
 	def define_destination
-		@destination = ActiveShipping::Location.new(country: COUNTRY, zip: params[:zip])
+		@destination = ActiveShipping::Location.new(country: COUNTRY, zip: DESTINATION_ZIP)
 	end
 
 
